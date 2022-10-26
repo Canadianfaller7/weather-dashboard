@@ -1,0 +1,41 @@
+body {
+    margin: 10px;
+    padding: 10px;
+    background-color: #505050;
+    color: white;
+}
+
+header h1 { 
+    margin: 0;
+    padding: 25px 0;
+    background: linear-gradient(to bottom right, #300444, #b9a2ff); 
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+
+.day-forecast{
+    background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
+    padding: 5px;
+    margin: 10px;
+    color: white;
+    border-radius: 10px;
+    width: 200px;
+}
+
+#todays-forecast {
+    text-decoration: none;
+}
+
+#todays-forecast {
+    display: none;
+}
+
+#my-btn {
+    background: linear-gradient(to bottom right, #300444, #b9a2ff); 
+    color: white;
+}
+
+.cap-letter {
+    text-transform: capitalize;
+}
