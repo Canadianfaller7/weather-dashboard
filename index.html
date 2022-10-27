@@ -13,41 +13,38 @@
         <header>
             <h1>Weather Dashboard</h1>
         </header>
-        
-        <main class="row">
-            <aside id="search" class="col-4">
-                <div class="mt-5 border-bottom border-dark">
+        <div class="container">
+            <aside id="search">
+                <div class="mt-5">
                     <form id="search-form">
                         <h2 class="mt-2 mb-3">Search for a City:</h2>
                         <input id="search-input" type="text" class="form-control cap-letter" placeholder="Chicago">
-                        <input id="my-btn" type="submit" class="btn btn-dark col-12 mt-2 mb-3"></input>
+                        <input id="" type="submit" class="btn col-12 col-lg-5 mt-2 mb-3 my-btn"><div id="submit-border"></div></input>
                     </form>
                 </div>
 
-                <div id="serach-history" class="mt-5">
+                <div id="serach-history" class="mt-5 text-center text-lg-start">
                     <h2>Search History:</h2>
                     <div id="history-container">
 
                     </div>
                 </div>
             </aside>
-
-            <section id="todays-forecast" class="col-8 p-3">
-                <div id="todays-info" class="m-3 p-2 border border-dark">
-                    <div id="today-content">
-
+            <main>
+                <section id="todays-forecast" class="p-3 forecast">
+                    <div id="todays-info" class="m-3 p-2 border border-dark">
+   
                     </div>
-                </div>
-
-                <div id="fiveday-forecast" class="m-3">
-                    <h2>5 day forecast:</h2>
-                    <div id="forecast-container" class="d-flex flex-row flex-wrap">
-
-                    </div>
-                </div>
-            </section>
-        </main>
-
+                </section>
+                <section id="fiveday-forecast" class="m-3 text-center forecast">
+                        <h2>5 day forecast:</h2>
+                        <div id="forecast-container" class="d-flex flex-row flex-wrap">
+    
+                        </div>
+                </section>
+            </main>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
         <script
           src="https://code.jquery.com/jquery-3.6.1.min.js"

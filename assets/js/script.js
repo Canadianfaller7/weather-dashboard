@@ -1,15 +1,30 @@
 
 const appID = 'a61b36fe8c520107f169f4a01a144e8b';
 
+let monthDate = dayjs().month() + 1
+let dayDate = dayjs().date() 
+let yearDate = dayjs().year();
+
+let dateToday = `${monthDate}/${dayDate}/${yearDate}`
+console.log(dateToday);
+
+
 // this is the function to see if our city is a place and will also get it's geo coordinents 
 const forecastSearch = async search => {
     const getGeo = `https://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=1&appID=${appID}`;
     let weatherQuery;
-    // getting the api info and parsing it
+    let fiveDayWeatherQuery;
+    // getting the api info and parsing it for our forecast
     await fetch(getGeo)
     .then(res => res.json())
     .then(result => {
-        weatherQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${result[0].lat}&lon=${result[0].lon}&appID=${appID}&units=imperial`;
+        weatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${result[0].lat}&lon=${result[0].lon}&appID=${appID}&units=imperial`;
+    })
+    // same as above, but this result will be used for our 5 day forecast
+    await fetch(getGeo)
+    .then(response => response.json())
+    .then(result => {
+        fiveDayWeatherQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${result[0].lat}&lon=${result[0].lon}&appid=${appID}&units=imperial`;
     })
     .catch(err => {
         alert('Could not find a city with that name! Please try again')
@@ -21,35 +36,46 @@ const forecastSearch = async search => {
         .then(result => {
             // pass the results and search param into our functions
             todayForecast(result, search);
-            fiveDayForecast(result, search);
         })
         .catch(err => console.log(err));
+    }
+    if(fiveDayWeatherQuery){
+        await fetch(fiveDayWeatherQuery)
+        .then(res => res.json())
+        .then(result => {
+            fiveDayForecast(result, search);
+        })
     }
 }
 
 // getting the information for current day forcast based on the info that got parsed earlier in the forecastSearch function
 const todayForecast = async (data, city) => {
-    const current = data.current;
-    const date = new Date(current.dt * 1000).toLocaleDateString('en-US');
+    const current = data.list[0];
+    const date = dateToday;
     const getIcon = current.weather[0].icon;
     const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
+    const currentTemp = current.main
 
     // making html elements to add the info for our weather
-    const currentHtml = `<h1 class=cap-letter>${city} (${date}) <img src='${icon}'></h1>
-                        <p>Temp: ${Math.floor(current.temp)}°F</p>
-                        <p>Humidity: ${current.humidity}%</p>
-                        <p>Wind Speed: ${current.wind_speed} MPH</p>`;
+    const currentHtml = 
+                        `<h3 class=cap-letter>${city} (${date}) <img src='${icon}'></h3>
+                        <p>Temp: ${Math.floor(currentTemp.temp)}°F</p>
+                        <p>Feels Like: ${Math.floor(currentTemp.feels_like)}°F</p>
+                        <p>Low: ${Math.floor(currentTemp.temp_min)}°F</p>
+                        <p>Max: ${Math.floor(currentTemp.temp_max)}°F</p>
+                        <p>Humidity: ${currentTemp.humidity}%</p>
+                        <p>Wind Speed: ${current.wind.speed} MPH</p>`;
 
-    $('#today-content').html('');
+    $('#todays-info').html('');
     // showing our todays forecast block
-    $('#todays-forecast').css("display", "block")
+    $('.forecast').css("display", "block")
     // appending currentHtml to display on screen
-    $('#today-content').append(currentHtml);
+    $('#todays-info').append(currentHtml);
     // adding the city searched to our local storage
     addToSearchHistory(city);
 }
 
-// doing the same thing as above, but for 5 days
+// doing the same thing as above, but for 5 days and using a different api call
 const fiveDayForecast = (data, city) => {
     const daily = data.daily;
 
@@ -57,15 +83,17 @@ const fiveDayForecast = (data, city) => {
 
     daily.forEach((day, index) => {
         if(index < 5){
-
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const date = new Date(i.dt * 1000).toLocaleDateString('en-US');
+            const dayIncrement =  dayDate + index + 1;
+            const date = `${monthDate}/${dayIncrement}/${yearDate}`
             const fiveDayWeather = `<div class='day-forecast'>
                                 <h3>${date}</h3>
                                 <img src='${icon}'></img>
-                                <p>Temperature: ${Math.floor(i.temp.day)}°F</p>
+                                <p>Temp: ${Math.floor(i.temp.day)}°F</p>
+                                <p>Low: ${Math.floor(i.temp.min)}°F</p>
+                                <p>High: ${Math.floor(i.temp.max)}°F</p>
                                 <p>Wind Speed: ${i.wind_speed} MPH</p>
                                 <p>Humidity: ${i.humidity}%</p>
                             </div>`;
@@ -73,4 +101,71 @@ const fiveDayForecast = (data, city) => {
         }
     });
 }
+
+/*
+  Search History Functionality
+*/
+
+// checking the history and adding the new searched city
+const addToSearchHistory = city => {
+    let history = getSearchHistory();
+    let newHist = [];
+
+    if(history){
+        newHist = history.filter(item =>{
+            return item !== city
+        })
+    }
+    // adding new city to the front of the array
+    newHist.unshift(city);
+    // if the new history gets bigger than 10 remove the last search stored
+    if(newHist.length > 7) newHist.pop();
+
+    localStorage.setItem('history', JSON.stringify(newHist));
+
+    historyButton();
+}
+// getting the history or array from local storage and returning it
+const getSearchHistory = () => {
+    const history = JSON.parse(localStorage.getItem('history')) || [];
+    return history;
+}
+
+const searchSubmitHandler = () => {
+    const search = $('#search-input').val();
+    
+    // forecastSearch(search);
+    if(search){
+        forecastSearch(search);
+        $('#search-input').val('')
+    }
+}
+
+// button to display searched cities and show them as a button to be searched again
+const historyButton = () => {
+    const history = JSON.parse(localStorage.getItem('history'));
+
+    $('#history-container').html('');
+
+    if(history){
+        history.forEach((item) => {
+            const html = `<button class='hist-btn my-btn btn m-2 col-10 col-md-5 cap-letter'>${item}</button>`;
+
+            $('#history-container').append(html);
+        })
+    }
+
+    $('.hist-btn').on('click', function(e){
+        forecastSearch($(this).html());
+    });
+}
+
+historyButton();
+
+$('#search-form').submit(function(e){
+    e.preventDefault();
+
+    searchSubmitHandler();
+});
+
 

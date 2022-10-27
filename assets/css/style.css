@@ -14,28 +14,68 @@ header h1 {
     text-align: center;
 }
 
+.container { 
+    padding: 20px; 
+}
+
+#submit-border {
+    border-bottom: rgb(0, 0, 0) 2px solid;
+    width: 100%;
+}
+
 .day-forecast{
     background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
     padding: 5px;
     margin: 10px;
     color: white;
     border-radius: 10px;
-    width: 200px;
+    width: 100%;
 }
 
-#todays-forecast {
-    text-decoration: none;
-}
 
-#todays-forecast {
-    display: none;
-}
 
-#my-btn {
+.my-btn {
     background: linear-gradient(to bottom right, #300444, #b9a2ff); 
     color: white;
 }
 
+.forecast {
+    display: none;
+}
+#todays-info{
+    margin-top: 15px;
+    background: linear-gradient(to bottom right, #744c86, #c4b2fc);
+    font-size: large; 
+}
+
 .cap-letter {
     text-transform: capitalize;
+}
+
+
+@media(min-width:992px) {
+    #search-form {
+        width: 50%;
+    }
+    #submit-border{
+        width: 42%;
+    }
+
+    #content #search-input {
+        width: 41.5%;
+    }
+    #hist-btn {
+        display: flex;
+        flex-direction: row;
+        width: 25%;
+    }
+    
+    .day-forecast{
+        background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
+        padding: 5px;
+        margin: 10px;
+        color: white;
+        border-radius: 10px;
+        width: 40%;
+    }
 }
