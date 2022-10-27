@@ -1,10 +1,13 @@
+/*  MOBILE VIEW*/
+
+/* giving some style to body element */
 body {
     margin: 10px;
     padding: 10px;
     background-color: #505050;
     color: white;
 }
-
+/* giving style to h1 in header element with changing colors */
 header h1 { 
     margin: 0;
     padding: 25px 0;
@@ -13,14 +16,13 @@ header h1 {
     font-weight: bold;
     text-align: center;
 }
-
-
-
+/* little border to go under submit button */
 #submit-border {
     border-bottom: rgb(0, 0, 0) 2px solid;
     width: auto;
 }
 
+/* give style to the 5 day forecast */
 .day-forecast{
     background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
     margin: 10px;
@@ -29,35 +31,40 @@ header h1 {
     width: auto;
 }
 
-
-
+/*  style for buttons*/
 .my-btn {
     background: linear-gradient(to bottom right, #300444, #b9a2ff); 
     color: white;
 }
 
+/* hiding the forecast on main screen till its called */
 .forecast {
     display: none;
 }
 
+/* style for the weather for today */
 #todays-info{
     margin-top: 15px;
     background: linear-gradient(to bottom right, #744c86, #c4b2fc);
     font-size: large; 
 }
 
+/* aligning content in history container class */
 #history-container {
     text-align: center;
 }
 
+/* aligning search history text */
 #search-history h3 {
     text-align: center;
 }
 
+/* making all text have a capital letter */
 .cap-letter {
     text-transform: capitalize;
 }
 
+/* WORKING WAY UP TO DESKTOP SIZES*/
 @media(min-width:992px) {
 
    .container {
