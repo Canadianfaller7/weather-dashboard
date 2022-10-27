@@ -26,7 +26,7 @@ Please refer to the LICENSE in the repo.
 ![Alt text](./assets/images/main-screen.png?raw=true "Optional Title")
 
 - Searching a city
-![Alt text](./assets/images/search-city-one.png?raw=true "Optional Title")
+![Alt text](./assets/images/searched-city-one.png?raw=true "Optional Title")
 
 - Showing another city saved to storage as well
 ![Alt text](./assets/images/search-city-two.png?raw=true "Optional Title")
