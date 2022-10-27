@@ -64,7 +64,7 @@ const todayForecast = async (data, city) => {
                         <p>Low: ${Math.floor(currentTemp.temp_min)}°F</p>
                         <p>Max: ${Math.floor(currentTemp.temp_max)}°F</p>
                         <p>Humidity: ${currentTemp.humidity}%</p>
-                        <p>Wind Speed: ${current.wind.speed} MPH</p>`;
+                        <p>Wind: ${current.wind.speed} MPH</p>`;
 
     $('#todays-info').html('');
     // showing our todays forecast block
@@ -88,7 +88,8 @@ const fiveDayForecast = (data, city) => {
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
             const dayIncrement =  dayDate + index + 1;
             const date = `${monthDate}/${dayIncrement}/${yearDate}`
-            const fiveDayWeather = `<div class='day-forecast'>
+            const fiveDayWeather = 
+                                `<div class='day-forecast'>
                                 <h3>${date}</h3>
                                 <img src='${icon}'></img>
                                 <p>Temp: ${Math.floor(i.temp.day)}°F</p>

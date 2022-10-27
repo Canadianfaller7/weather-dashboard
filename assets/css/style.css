@@ -14,22 +14,19 @@ header h1 {
     text-align: center;
 }
 
-.container { 
-    padding: 20px; 
-}
+
 
 #submit-border {
     border-bottom: rgb(0, 0, 0) 2px solid;
-    width: 100%;
+    width: auto;
 }
 
 .day-forecast{
     background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
-    padding: 5px;
     margin: 10px;
     color: white;
     border-radius: 10px;
-    width: 100%;
+    width: auto;
 }
 
 
@@ -42,32 +39,91 @@ header h1 {
 .forecast {
     display: none;
 }
+
 #todays-info{
     margin-top: 15px;
     background: linear-gradient(to bottom right, #744c86, #c4b2fc);
     font-size: large; 
 }
 
+#history-container {
+    text-align: center;
+}
+
+#search-history h3 {
+    text-align: center;
+}
+
 .cap-letter {
     text-transform: capitalize;
 }
 
-
 @media(min-width:992px) {
-    #search-form {
-        width: 50%;
-    }
-    #submit-border{
-        width: 42%;
-    }
 
-    #content #search-input {
-        width: 41.5%;
-    }
-    #hist-btn {
+   .container {
         display: flex;
         flex-direction: row;
-        width: 25%;
+        gap: 20px;
+    }
+
+    .container aside {
+        flex-basis: 40%;
+    }
+
+    .container main  {
+        flex-grow: 1;
+    }
+    #todays-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 20px;
+        width: 810px
+    }
+    #todays-info h3{
+        font-size: 40px;
+    }
+
+    #forecast-container {
+        display: flex;
+        flex-direction: row;
+        margin-left: -33px;
+        width: auto;
+    }
+
+    #search-form {
+        padding: 0;
+        margin-left: -40px;
+        width: auto;
+    }
+    #search-form h3{
+        font-size: 20px;
+    }
+    .submit-btn {
+        width: auto;
+    }
+    #submit-border{
+        width: auto;
+    }
+
+    #search-input {
+        padding: 0;
+        
+        width: auto;
+    }
+    #history-container {
+        margin-left: -50px;
+    }
+    #search-history h3{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: -40px;
+        font-size: 20px;
+    }
+    .hist-btn {
+        display: flex;
+        flex-direction: row;
+        width: auto;
     }
     
     .day-forecast{
@@ -78,4 +134,256 @@ header h1 {
         border-radius: 10px;
         width: 40%;
     }
-}
+} 
+
+@media(min-width:1025px) {
+
+   .container {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    .container aside {
+        flex-basis: 40%;
+    }
+
+    .container main  {
+        flex-grow: 1;
+    }
+    #todays-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 35px;
+        width: 1100px
+    }
+    #todays-info h3{
+        font-size: 60px;
+    }
+
+    #forecast-container {
+        display: flex;
+        flex-direction: row;
+        margin-left: -33px;
+        width: auto;
+    }
+
+    #search-form {
+        padding: 0;
+        margin-left: -70px;
+        width: auto;
+    }
+    #search-form h3{
+        font-size: 27px;
+    }
+    .submit-btn {
+        width: 100%;
+    }
+    #submit-border{
+        width: auto;
+    }
+
+    #search-input {
+        width: 100%;
+    }
+    #history-container {
+        margin-left: -80px;
+    }
+    #search-history h3{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: -70px;
+        font-size: 25px;
+    }
+    .hist-btn {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    
+    .day-forecast{
+        background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
+        padding: 5px;
+        margin: 10px;
+        color: white;
+        border-radius: 10px;
+        width: 40%;
+    }
+} 
+
+@media(min-width:1440px) {
+
+   .container {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    .container aside {
+        flex-basis: 40%;
+    }
+
+    .container main  {
+        flex-grow: 1;
+    }
+
+    header h1 { 
+        margin-right: 20px;
+        padding: 25px 0;
+        background: linear-gradient(to bottom right, #300444, #b9a2ff); 
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #todays-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 35px;
+        width: 1100px
+    }
+    #todays-info h3{
+        font-size: 60px;
+    }
+
+    #forecast-container {
+        display: flex;
+        flex-direction: row;
+        margin-left: -33px;
+        width: auto;
+    }
+
+    #search-form {
+        padding: 0;
+        margin-left: -70px;
+        width: auto;
+    }
+    #search-form h3{
+        font-size: 27px;
+    }
+    .submit-btn {
+        width: 100%;
+    }
+    #submit-border{
+        width: auto;
+    }
+
+    #search-input {
+        width: 100%;
+    }
+    #history-container {
+        margin-left: -80px;
+    }
+    #search-history h3{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: -70px;
+        font-size: 25px;
+    }
+    .hist-btn {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    
+    .day-forecast{
+        background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
+        padding: 5px;
+        margin: 10px;
+        color: white;
+        border-radius: 10px;
+        width: 40%;
+    }
+} 
+
+@media(min-width:2560px) {
+
+   .container {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    .container aside {
+        flex-basis: 40%;
+    }
+
+    .container main  {
+        flex-grow: 1;
+    }
+
+    header h1 { 
+        margin-right: 20px;
+        padding: 25px 0;
+        background: linear-gradient(to bottom right, #300444, #b9a2ff); 
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #todays-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 50px;
+        width: 1800px
+    }
+    #todays-info h3{
+        font-size: 80px;
+    }
+
+    #forecast-container {
+        display: flex;
+        flex-direction: row;
+        margin-left: -33px;
+        width: auto;
+    }
+
+    #search-form {
+        padding: 0;
+        margin-left: -630px;
+        width: auto;
+    }
+    #search-form h3{
+        font-size: 70px;
+    }
+    .submit-btn {
+        font-size: 40px;
+        width: 100%;
+    }
+    #submit-border{
+        width: auto;
+    }
+
+    #search-input {
+        font-size: 40px;
+        width: 100%;
+    }
+    #history-container {
+        margin-left: -640px;
+    }
+    #search-history h3{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: -630px;
+        font-size: 60px;
+    }
+    .hist-btn {
+        font-size: 40px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    
+    .day-forecast{
+        background: linear-gradient(to bottom right,  #c4b2fc, #300444); 
+        padding: 5px;
+        margin: 10px;
+        color: white;
+        font-size: 40px;
+        border-radius: 10px;
+        width: 100%;
+    }
+} 
