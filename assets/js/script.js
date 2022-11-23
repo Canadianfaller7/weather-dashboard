@@ -9,47 +9,38 @@ let dateToday = `${monthDate}/${dayDate}/${yearDate}`
 console.log(dateToday);
 
 
-// this is the function to see if our city is a place and will also get it's geo coordinents 
+// this is the function to see if our city is a place and will also get it's geo coordinates 
 const forecastSearch = async search => {
-    const getGeo = `https://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=1&appID=${appID}`;
-    let weatherQuery;
-    let fiveDayWeatherQuery;
-    // getting the api info and parsing it for our forecast
-    await fetch(getGeo)
-    .then(res => res.json())
-    .then(result => {
-        weatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${result[0].lat}&lon=${result[0].lon}&appID=${appID}&units=imperial`;
-    })
-    // same as above, but this result will be used for our 5 day forecast
-    await fetch(getGeo)
-    .then(response => response.json())
-    .then(result => {
-        fiveDayWeatherQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${result[0].lat}&lon=${result[0].lon}&appid=${appID}&units=imperial`;
-    })
-    .catch(err => {
-        alert('Could not find a city with that name! Please try again')
-    })
-    // if the information is correct 
-    if(weatherQuery){
-        await fetch(weatherQuery)
-        .then(res => res.json())
-        .then(result => {
-            // pass the results and search param into our functions
-            todayForecast(result, search);
-        })
-        .catch(err => console.log(err));
+    try {
+        const getGeo = `https://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=1&appID=${appID}`;
+        let weatherQuery;
+        let fiveDayWeatherQuery;    
+        // getting the api info and parsing it for our forecast
+        const res = await fetch(getGeo);
+        const data = await res.json();
+        weatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&appID=${appID}&units=imperial`
+    
+        fiveDayWeatherQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${data[0].lat}&lon=${data[0].lon}&appid=${appID}&units=imperial`;
+        
+        // if the information is correct 
+        if(weatherQuery){
+            const res = await fetch(weatherQuery);
+            const data = await res.json();
+            todayForecast(data, search);
+        }
+        if(fiveDayWeatherQuery){
+            const res = await fetch(fiveDayWeatherQuery);
+            const data = await res.json();
+            fiveDayForecast(data, search);
+        }
     }
-    if(fiveDayWeatherQuery){
-        await fetch(fiveDayWeatherQuery)
-        .then(res => res.json())
-        .then(result => {
-            fiveDayForecast(result, search);
-        })
+    catch(err){
+        console.log(err);
     }
 }
 
-// getting the information for current day forcast based on the info that got parsed earlier in the forecastSearch function
-const todayForecast = async (data, city) => {
+// getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
+const todayForecast =  (data, city) => {
     const current = data.list[0];
     const date = dateToday;
     const getIcon = current.weather[0].icon;
@@ -165,7 +156,6 @@ historyButton();
 
 $('#search-form').submit(function(e){
     e.preventDefault();
-
     searchSubmitHandler();
 });
 
