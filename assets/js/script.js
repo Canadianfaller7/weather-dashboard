@@ -73,7 +73,7 @@ const fiveDayForecast = (data, city) => {
     $('#forecast-container').html('');
 
     daily.forEach((day, index) => {
-        if(index < 5){
+        if(index < 8){
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
