@@ -77,7 +77,7 @@ const fiveDayForecast = (data, city) => {
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const dayIncrement =  dayDate + index + 1;
+            const dayIncrement =  dayDate + index;
             const date = `${monthDate}/${dayIncrement}/${yearDate}`
             const fiveDayWeather = 
                                 `<div class='day-forecast'>
