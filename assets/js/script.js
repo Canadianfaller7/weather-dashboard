@@ -67,13 +67,13 @@ const todayForecast =  (data, city) => {
 }
 
 // doing the same thing as above, but for 5 days and using a different api call
-const fiveDayForecast = (data, city) => {
+const fiveDayForecast = data => {
     const daily = data.daily;
 
     $('#forecast-container').html('');
 
     daily.forEach((day, index) => {
-        if(index < 5){
+        if(index < 8){
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
