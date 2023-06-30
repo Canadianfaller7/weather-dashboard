@@ -42,7 +42,7 @@ const forecastSearch = async search => {
 // getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
 const todayForecast =  (data, city) => {
     const current = data.list[0];
-    const date = new Date(forecast.dt * 1000);
+    const date = new Date(data.dt * 1000);
     const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     const getIcon = current.weather[0].icon;
     const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
@@ -78,7 +78,7 @@ const fiveDayForecast = data => {
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const date = new Date(forecast.dt * 1000);
+            const date = new Date(i.dt * 1000);
             const fiveDayDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
             const fiveDayWeather = 
                                 `<div class='day-forecast'>
