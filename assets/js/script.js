@@ -40,7 +40,7 @@ const forecastSearch = async search => {
 }
 
 // getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
-const todayForecast =  (data, city) => {
+const todayForecast = (data, city) => {
     const current = data.list[0];
     const date = new Date(current.dt * 1000);
     const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
@@ -74,12 +74,8 @@ const fiveDayForecast = data => {
     $('#forecast-container').html('');
 
     daily.forEach((day, index) => {
-        if(index <= 8){
-            console.log(`daily -> ${daily}`);
-            console.log(`index -> ${index}`);
-            console.log(`day -> ${day}`);
-            const i = daily[index];
-            console.log(`i -> ${i}`);
+        if(index < 9){
+            const i = daily[index + 1];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
             const date = new Date(i.dt * 1000);
