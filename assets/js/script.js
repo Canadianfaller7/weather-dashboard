@@ -44,14 +44,14 @@ const forecastSearch = async search => {
 // getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
 const todayForecast =  (data, city) => {
     const current = data.list[0];
-    const date = dateString;
+    const currentDate = dateString;
     const getIcon = current.weather[0].icon;
     const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
     const currentTemp = current.main
 
     // making html elements to add the info for our weather
     const currentHtml = 
-                        `<h3 class=cap-letter>${city} (${date}) <img src='${icon}'></h3>
+                        `<h3 class=cap-letter>${city} (${currentDate}) <img src='${icon}'></h3>
                         <p>Temp: ${Math.floor(currentTemp.temp)}°F</p>
                         <p>Feels Like: ${Math.floor(currentTemp.feels_like)}°F</p>
                         <p>Low: ${Math.floor(currentTemp.temp_min)}°F</p>
@@ -79,10 +79,10 @@ const fiveDayForecast = data => {
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const date = dateString
+            const fiveDayDate = dateString;
             const fiveDayWeather = 
                                 `<div class='day-forecast'>
-                                <h3>${date}</h3>
+                                <h3>${fiveDayDate}</h3>
                                 <img src='${icon}'></img>
                                 <p>Temp: ${Math.floor(i.temp.day)}°F</p>
                                 <p>Low: ${Math.floor(i.temp.min)}°F</p>
