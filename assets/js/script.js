@@ -1,7 +1,7 @@
 
 const appID = 'a61b36fe8c520107f169f4a01a144e8b';
 
-let monthDate = dayjs().month() + 1
+let monthDate = dayjs().month(0) + 1
 let dayDate = dayjs().date() 
 let yearDate = dayjs().year();
 
