@@ -73,12 +73,11 @@ const fiveDayForecast = data => {
     $('#forecast-container').html('');
 
     daily.forEach((day, index) => {
-        if(index < 6){
+        if(index <= 8){
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const dayIncrement =  dayDate + i;
-            const date = `${monthDate}/${dayIncrement}/${yearDate}`
+            const date = `${monthDate}/${dayDate}/${yearDate}`
             const fiveDayWeather = 
                                 `<div class='day-forecast'>
                                 <h3>${date}</h3>
