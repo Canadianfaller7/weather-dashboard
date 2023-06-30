@@ -1,13 +1,15 @@
 
 const appID = 'a61b36fe8c520107f169f4a01a144e8b';
 
-let monthDate = dayjs().month() + 1
+const date = new Date(forecast.dt * 1000);
+const dateString = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+/*let monthDate = dayjs().month() + 1
 let dayDate = dayjs().date() 
 let yearDate = dayjs().year();
 
 let dateToday = `${monthDate}/${dayDate}/${yearDate}`
 console.log(dateToday);
-
+*/
 
 // this is the function to see if our city is a place and will also get it's geo coordinates 
 const forecastSearch = async search => {
@@ -42,7 +44,7 @@ const forecastSearch = async search => {
 // getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
 const todayForecast =  (data, city) => {
     const current = data.list[0];
-    const date = dateToday;
+    const date = dateString;
     const getIcon = current.weather[0].icon;
     const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
     const currentTemp = current.main
@@ -77,7 +79,7 @@ const fiveDayForecast = data => {
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const date = `${monthDate}/${dayDate}/${yearDate}`
+            const date = dateString
             const fiveDayWeather = 
                                 `<div class='day-forecast'>
                                 <h3>${date}</h3>
