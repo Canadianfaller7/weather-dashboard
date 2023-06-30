@@ -75,7 +75,11 @@ const fiveDayForecast = data => {
 
     daily.forEach((day, index) => {
         if(index <= 8){
+            console.log(`daily -> ${daily}`);
+            console.log(`index -> ${index}`);
+            console.log(`day -> ${day}`);
             const i = daily[index];
+            console.log(`i -> ${i}`);
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
             const date = new Date(i.dt * 1000);
