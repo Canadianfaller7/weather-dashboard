@@ -1,7 +1,7 @@
 
 const appID = 'a61b36fe8c520107f169f4a01a144e8b';
 
-let monthDate = dayjs().month(0) + 1
+let monthDate = dayjs().month() + 1
 let dayDate = dayjs().date() 
 let yearDate = dayjs().year();
 
@@ -73,11 +73,11 @@ const fiveDayForecast = data => {
     $('#forecast-container').html('');
 
     daily.forEach((day, index) => {
-        if(index < 8){
+        if(index < 6){
             const i = daily[index];
             const iIcon = i.weather[0].icon;
             const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const dayIncrement =  dayDate + index;
+            const dayIncrement =  dayDate + i;
             const date = `${monthDate}/${dayIncrement}/${yearDate}`
             const fiveDayWeather = 
                                 `<div class='day-forecast'>
