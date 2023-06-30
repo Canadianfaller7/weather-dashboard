@@ -42,7 +42,7 @@ const forecastSearch = async search => {
 // getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
 const todayForecast =  (data, city) => {
     const current = data.list[0];
-    const date = new Date(data.dt * 1000);
+    const date = new Date(current.dt * 1000);
     const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     const getIcon = current.weather[0].icon;
     const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
