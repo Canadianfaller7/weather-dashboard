@@ -8,6 +8,30 @@ let yearDate = dayjs().year();
 let dateToday = `${monthDate}/${dayDate}/${yearDate}`
 console.log(dateToday);
 */
+const openWeatherIcon = weatherIcon => `http://openweathermap.org/img/wn/${weatherIcon}.png`;
+
+let weatherIcon;
+
+const weatherCondition = {
+  "01d": "./assets/images/day.svg",
+  "01n": "./assets/images/night.svg",
+  "02d": "./assets/images/cloudy-day-3.svg",
+  "02n": "./assets/images/cloudy-night-3.svg",
+  "03d": "./assets/images/cloudy.svg",
+  "03n": "./assets/images/cloudy-night-3.svg",
+  "04d": "./assets/images/cloudy.svg",
+  "04n": "./assets/images/cloudy-night-3.svg",
+  "09d": "./assets/images/rainy-6.svg",
+  "09n": "./assets/images/rainy-6.svg",
+  "10d": "./assets/images/rainy-3.svg",
+  "10n": "./assets/images/rainy-6.svg",
+  "11d": "./assets/images/thunder.svg",
+  "11n": "./assets/images/thunder.svg",
+  "13d": "./assets/images/snowy-3.svg",
+  "13n": "./assets/images/snowy-6.svg",
+  "50d": "./assets/images/smoke.png",
+  "50n": "./assets/images/smoke.png",
+};
 
 // this is the function to see if our city is a place and will also get it's geo coordinates 
 const forecastSearch = async search => {
@@ -22,7 +46,7 @@ const forecastSearch = async search => {
 
         const lat = searchData.coord.lat;
         const lon = searchData.coord.lon;
-        console.log(`seachData ->`, searchData);
+        console.log(`searchData ->`, searchData);
 
         weatherQuery = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appID=${appID}&units=imperial`
         
@@ -53,7 +77,7 @@ const todayForecast = (todayData, city) => {
         const date = new Date(current.dt * 1000);
         const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
         const getIcon = current.weather[0].icon;
-        const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
+        const icon = weatherCondition[getIcon];
         const currentTemp = current.main
         
         // making html elements to add the info for our weather
@@ -91,14 +115,14 @@ const fiveDayForecast = (data) => {
             if (index) {
                 const i = index;
                 console.log("i ->", i);
-                const iIcon = i.weather[0].icon;
-                const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
+                iIcon = i.weather[0].icon;
+                fiveDayIcon = weatherCondition[iIcon];
                 const date = new Date(i.dt * 1000);
                 const fiveDayDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
                 const fiveDayWeather = 
                                     `<div class='day-forecast'>
                                     <h3>${fiveDayDate}</h3>
-                                    <img src='${icon}'></img>
+                                    <img src='${fiveDayIcon}'></img>
                                     <p>Temp: ${Math.floor(i.main.temp)}°F</p>
                                     <p>Low: ${Math.floor(i.main.temp_min)}°F</p>
                                     <p>High: ${Math.floor(i.main.temp_max)}°F</p>
