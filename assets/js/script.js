@@ -15,7 +15,7 @@ const forecastSearch = async search => {
         const getGeo = `https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${appID}&units=imperial`;
         
         let weatherQuery;
-        let eightDayWeatherQuery;    
+        let fiveDayWeatherQuery;    
         // getting the api info and parsing it for our forecast
         const res = await fetch(getGeo);
         const searchData = await res.json();
@@ -26,7 +26,7 @@ const forecastSearch = async search => {
 
         weatherQuery = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appID=${appID}&units=imperial`
         
-        eightDayWeatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${appID}&units=imperial`;
+        fiveDayWeatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${appID}&units=imperial`;
         
         // if the information is correct 
         if(weatherQuery){
@@ -34,10 +34,10 @@ const forecastSearch = async search => {
             const data = await res.json();
             todayForecast(data, search);
         }
-        if(eightDayWeatherQuery){
-            const res = await fetch(eightDayWeatherQuery);
+        if(fiveDayWeatherQuery){
+            const res = await fetch(fiveDayWeatherQuery);
             const data = await res.json();
-            eightDayForecast(data);
+            fiveDayForecast(data);
         }
     }
     catch(err){
@@ -80,10 +80,10 @@ const todayForecast = (todayData, city) => {
 }
 
 // doing the same thing as above, but for 5 days and using a different api call
-const eightDayForecast = (data) => {
+const fiveDayForecast = (data) => {
     try {  
         const daily = data.list.filter(reading => reading.dt_txt.includes("15:00:00"));
-        console.log(`eightDayForecastData ->`, data);
+        console.log(`fiveDayForecastData ->`, data);
     
         $('#forecast-container').html('');
     
@@ -94,10 +94,10 @@ const eightDayForecast = (data) => {
                 const iIcon = i.weather[0].icon;
                 const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
                 const date = new Date(i.dt * 1000);
-                const eightDayDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-                const eightDayWeather = 
+                const fiveDayDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                const fiveDayWeather = 
                                     `<div class='day-forecast'>
-                                    <h3>${eightDayDate}</h3>
+                                    <h3>${fiveDayDate}</h3>
                                     <img src='${icon}'></img>
                                     <p>Temp: ${Math.floor(i.main.temp)}°F</p>
                                     <p>Low: ${Math.floor(i.main.temp_min)}°F</p>
@@ -105,7 +105,7 @@ const eightDayForecast = (data) => {
                                     <p>Wind Speed: ${i.wind_speed} MPH</p>
                                     <p>Humidity: ${i.main.humidity}%</p>
                                 </div>`;
-                $('#forecast-container').append(eightDayWeather);
+                $('#forecast-container').append(fiveDayWeather);
             }
         });
     } catch (err) {
