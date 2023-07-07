@@ -12,15 +12,21 @@ console.log(dateToday);
 // this is the function to see if our city is a place and will also get it's geo coordinates 
 const forecastSearch = async search => {
     try {
-        const getGeo = `https://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=1&appID=${appID}`;
+        const getGeo = `https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${appID}&units=imperial`;
+        
         let weatherQuery;
-        let fiveDayWeatherQuery;    
+        let eightDayWeatherQuery;    
         // getting the api info and parsing it for our forecast
         const res = await fetch(getGeo);
-        const data = await res.json();
-        weatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&appID=${appID}&units=imperial`
-    
-        fiveDayWeatherQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${data[0].lat}&lon=${data[0].lon}&appid=${appID}&units=imperial`;
+        const searchData = await res.json();
+
+        const lat = searchData.coord.lat;
+        const lon = searchData.coord.lon;
+        console.log(`seachData ->`, searchData);
+
+        weatherQuery = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appID=${appID}&units=imperial`
+        
+        eightDayWeatherQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${appID}&units=imperial`;
         
         // if the information is correct 
         if(weatherQuery){
@@ -28,10 +34,10 @@ const forecastSearch = async search => {
             const data = await res.json();
             todayForecast(data, search);
         }
-        if(fiveDayWeatherQuery){
-            const res = await fetch(fiveDayWeatherQuery);
+        if(eightDayWeatherQuery){
+            const res = await fetch(eightDayWeatherQuery);
             const data = await res.json();
-            fiveDayForecast(data, search);
+            eightDayForecast(data);
         }
     }
     catch(err){
@@ -40,59 +46,71 @@ const forecastSearch = async search => {
 }
 
 // getting the information for current day forecast based on the info that got parsed earlier in the forecastSearch function
-const todayForecast = (data, city) => {
-    const current = data.list[0];
-    const date = new Date(current.dt * 1000);
-    const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    const getIcon = current.weather[0].icon;
-    const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
-    const currentTemp = current.main
-
-    // making html elements to add the info for our weather
-    const currentHtml = 
-                        `<h3 class=cap-letter>${city} (${currentDate}) <img src='${icon}'></h3>
-                        <p>Temp: ${Math.floor(currentTemp.temp)}°F</p>
-                        <p>Feels Like: ${Math.floor(currentTemp.feels_like)}°F</p>
-                        <p>Low: ${Math.floor(currentTemp.temp_min)}°F</p>
-                        <p>Max: ${Math.floor(currentTemp.temp_max)}°F</p>
-                        <p>Humidity: ${currentTemp.humidity}%</p>
-                        <p>Wind: ${current.wind.speed} MPH</p>`;
-
-    $('#todays-info').html('');
-    // showing our todays forecast block
-    $('.forecast').css("display", "block")
-    // appending currentHtml to display on screen
-    $('#todays-info').append(currentHtml);
-    // adding the city searched to our local storage
-    addToSearchHistory(city);
+const todayForecast = (todayData, city) => {
+    try {
+        const current = todayData;
+        console.log("todayData", todayData);
+        const date = new Date(current.dt * 1000);
+        const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        const getIcon = current.weather[0].icon;
+        const icon = `https://openweathermap.org/img/wn/${getIcon}.png`;
+        const currentTemp = current.main
+        
+        // making html elements to add the info for our weather
+        const currentHtml = 
+                            `<h3 class=cap-letter>${city} (${currentDate}) <img src='${icon}'></h3>
+                            <p>Temp: ${Math.floor(currentTemp.temp)}°F</p>
+                            <p>Feels Like: ${Math.floor(currentTemp.feels_like)}°F</p>
+                            <p>Low: ${Math.floor(currentTemp.temp_min)}°F</p>
+                            <p>Max: ${Math.floor(currentTemp.temp_max)}°F</p>
+                            <p>Humidity: ${currentTemp.humidity}%</p>
+                            <p>Wind: ${current.wind.speed} MPH</p>`;
+        
+        $('#todays-info').html('');
+        // showing our todays forecast block
+        $('.forecast').css("display", "block")
+        // appending currentHtml to display on screen
+        $('#todays-info').append(currentHtml);
+        // adding the city searched to our local storage
+        addToSearchHistory(city);
+    }
+    catch (err) {
+        console.log(err("Unable to get current weather information at this moment."))
+    };
 }
 
 // doing the same thing as above, but for 5 days and using a different api call
-const fiveDayForecast = data => {
-    const daily = data.daily;
-
-    $('#forecast-container').html('');
-
-    daily.forEach((day, index) => {
-        if(index < 9){
-            const i = daily[index + 1];
-            const iIcon = i.weather[0].icon;
-            const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
-            const date = new Date(i.dt * 1000);
-            const fiveDayDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-            const fiveDayWeather = 
-                                `<div class='day-forecast'>
-                                <h3>${fiveDayDate}</h3>
-                                <img src='${icon}'></img>
-                                <p>Temp: ${Math.floor(i.temp.day)}°F</p>
-                                <p>Low: ${Math.floor(i.temp.min)}°F</p>
-                                <p>High: ${Math.floor(i.temp.max)}°F</p>
-                                <p>Wind Speed: ${i.wind_speed} MPH</p>
-                                <p>Humidity: ${i.humidity}%</p>
-                            </div>`;
-            $('#forecast-container').append(fiveDayWeather);
-        }
-    });
+const eightDayForecast = (data) => {
+    try {  
+        const daily = data.list.filter(reading => reading.dt_txt.includes("15:00:00"));
+        console.log(`eightDayForecastData ->`, data);
+    
+        $('#forecast-container').html('');
+    
+        daily.forEach(index => {
+            if (index) {
+                const i = index;
+                console.log("i ->", i);
+                const iIcon = i.weather[0].icon;
+                const icon = `http://openweathermap.org/img/wn/${iIcon}.png`;
+                const date = new Date(i.dt * 1000);
+                const eightDayDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                const eightDayWeather = 
+                                    `<div class='day-forecast'>
+                                    <h3>${eightDayDate}</h3>
+                                    <img src='${icon}'></img>
+                                    <p>Temp: ${Math.floor(i.main.temp)}°F</p>
+                                    <p>Low: ${Math.floor(i.main.temp_min)}°F</p>
+                                    <p>High: ${Math.floor(i.main.temp_max)}°F</p>
+                                    <p>Wind Speed: ${i.wind_speed} MPH</p>
+                                    <p>Humidity: ${i.main.humidity}%</p>
+                                </div>`;
+                $('#forecast-container').append(eightDayWeather);
+            }
+        });
+    } catch (err) {
+        console.log(`Unable to get forecast information at this moment due to ${err.stack}`)
+    }
 }
 
 /*
