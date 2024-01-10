@@ -126,7 +126,7 @@ const fiveDayForecast = (data) => {
                                     <p>Temp: ${Math.floor(i.main.temp)}°F</p>
                                     <p>Low: ${Math.floor(i.main.temp_min)}°F</p>
                                     <p>High: ${Math.floor(i.main.temp_max)}°F</p>
-                                    <p>Wind Speed: ${i.wind_speed} MPH</p>
+                                    <p>Wind Speed: ${i.wind.speed} MPH</p>
                                     <p>Humidity: ${i.main.humidity}%</p>
                                 </div>`;
                 $('#forecast-container').append(fiveDayWeather);
